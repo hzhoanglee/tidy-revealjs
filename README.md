@@ -1,5 +1,9 @@
 # tidy-revealjs
 
+## hzhoanglee's note
+Yea, I like this template. It's simple and easy to use. I will use it for my presentation. Thanks to [julie-ng](https://github.com/julie-ng/tidy-revealjs) for creating this template.
+However, the original template has not been updated for a long time. So I will update it to the latest version of reveal.js and fix some bugs with newer node.js version.
+
 A custom theme and build system for reveal.js
 
 I love [reveal.js](https://github.com/hakimel/reveal.js) for its ability to let me do slide with code directly in the browser and with [markdown](https://github.com/hakimel/reveal.js/#markdown). Theming and slide management is however tricky. Moving slides means navigating yourself in a potentially large and nested DOM tree.
@@ -20,7 +24,7 @@ This [WorkerConf slide](https://github.com/julie-ng/newtonjs-talk-slides) was cr
 First, clone this repository
 
 ```
-git clone https://github.com/julie-ng/tidy-revealjs
+git clone https://github.com/hzhoanglee/tidy-revealjs
 ```
 
 Then install dependencies, including reveal.js
@@ -115,7 +119,7 @@ This is a note
 
 For further examples of how to use this, please review my [WorkerConf slides &rarr;](https://github.com/julie-ng/newtonjs-talk-slides)
 
-## Todo
+## Todo (her's, not mine)
 
 - Setup generator?
   - Better for re-use than cloning this repository

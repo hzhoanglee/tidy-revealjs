@@ -43,18 +43,117 @@
 								<li>View Source on <a href="https://github.com/julie-ng/tidy-revealjs">GitHub</a></li>
 							</ul>
 						
-						</section>		<section data-markdown="slides/1.md" data-separator-notes="^Note:"></section>		<section data-markdown="slides/2.md" data-separator-notes="^Note:"></section>		<section>
+						</section>		
+						<section data-markdown>
+						  <textarea data-template>
+						    # Slide Management
+						
+						- Add slides by adding files
+						- No need to traverse &#x60;DOM&#x60;
+						
+						Example directory structure:
+						
+						&#x60;&#x60;&#x60;text
+						./slides
+						├── 1.html
+						├── 2.md
+						├── 3.md
+						└── base
+						    ├── bulleted-lists.md
+						    ├── ordered-lists.md
+						    ├── tables-as-html.html
+						    └── tables.md
+						&#x60;&#x60;&#x60;
+						  </textarea>
+						</section>
+						
+						<section data-markdown>
+						  <textarea data-template>
+						    # Features and Reveal.js 
+						
+						- This template includes a beautiful and simple design for lists, headings, etc.
+						- Complex features may only work with HTML slides
+						- Supports _all_ reveal.js features, including:
+							- speaker notes
+							- fragments, e.g. animations
+						  </textarea>
+						</section>
+						<section>
 									<section class="section-title" data-background-image="./images/example-stil-vdaJJbls3xE-unsplash.jpg">
 										<span class="section-number">1</span>
 										<h1>Theme: Basic Styles</h1>
 										<h2>Simple slides with just markdown</h2>
-									</section>		<section data-markdown="slides/basics/bulleted-lists.md" data-separator-notes="^Note:"></section>		<section data-markdown="slides/basics/ordered-lists.md" data-separator-notes="^Note:"></section>		<section data-markdown="slides/basics/tables.md" data-separator-notes="^Note:"></section>		</section>
+									</section>		
+									<section data-markdown>
+									  <textarea data-template>
+									    # Marvelous List
+									
+									- No order here
+									- Or here
+									- Or here
+									- Or here
+									
+									  </textarea>
+									</section>
+									
+									<section data-markdown>
+									  <textarea data-template>
+									    # Fantastic Ordered List
+									
+									1. One is smaller than...
+									1. Two is smaller than...
+									1. Three!
+									
+									  </textarea>
+									</section>
+									
+									<section data-markdown>
+									  <textarea data-template>
+									    # Tabular Tables (Markdown)
+									
+									| Iteam | Value | Quantity
+									|:--|:--|:--|
+									| Apples | $1 | 7 |
+									| Lemonade | $2 | 18 |
+									| Bread | $3 | 2 |
+									  </textarea>
+									</section>
+						</section>
 						<section>
 									<section class="section-title" data-background-image="./images/example-minh-pham-lB9ylP8e9Sg-unsplash.jpg">
 										<span class="section-number">2</span>
 										<h1>Theme: Presentation Layouts</h1>
 										<h2>Examples of more complex layouts and styles</h2>
-									</section>		<section data-markdown="slides/presentations/10-example-data.md" data-separator-notes="^Note:"></section>		<section class="section-conclusion center">
+									</section>		
+									<section data-markdown>
+									  <textarea data-template>
+									    Presentation Layouts
+									
+									# Example: Lists and Code
+									
+									- No HTML Layout required  
+									- Simple with markdown
+										- just a list
+										- followed by a code block
+									
+									&#x60;&#x60;&#x60;javascript
+									const data &#x3D; {
+										nodes: [
+											{ id: &#x27;web&#x27;, label: &#x27;Web Frontend&#x27; },
+											{ id: &#x27;mobile&#x27;, label: &#x27;Mobile Device&#x27; },
+											{ id: &#x27;backend&#x27;, label: &#x27;Monolith Backend&#x27; },
+											{ id: &#x27;db&#x27;, label: &#x27;Database&#x27; }
+										],
+										links: [
+											{ source: &#x27;web&#x27;, target: &#x27;backend&#x27; },
+											{ source: &#x27;mobile&#x27;, target: &#x27;backend&#x27; },
+											{ source: &#x27;backend&#x27;, target: &#x27;db&#x27; }
+										]
+									}
+									&#x60;&#x60;&#x60;
+									  </textarea>
+									</section>
+									<section class="section-conclusion center">
 										<p>Conclusion #1</p>
 										<h1>Example Conclusion</h1>
 										<h2>A longer subheadline</h2>
@@ -76,6 +175,9 @@
 		</div>
 
 		<script src="assets/vendor/revealjs/reveal.js"></script>
+		<script src="assets/vendor/revealjs/plugin/notes/notes.js"></script>
+		<script src="assets/vendor/revealjs/plugin/markdown/markdown.js"></script>
+		<script src="assets/vendor/revealjs/plugin/highlight/highlight.js"></script>
 		<script>
 			Reveal.initialize({
 				controls: true,
@@ -88,18 +190,7 @@
 				margin: 0.1,
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'assets/vendor/revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'assets/vendor/revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					// { src: 'assets/vendor/revealjs/plugin/highlight/highlight.js', async: true },
-					// { src: 'assets/vendor/revealjs/plugin/search/search.js', async: true },
-					// { src: 'assets/vendor/revealjs/plugin/zoom-js/zoom.js', async: true },
-					{ src: 'assets/vendor/revealjs/plugin/notes/notes.js', async: true },
-					{ src: 'assets/vendor/revealjs/plugin/notes-server/client.js', async: true },
-					{ src: 'assets/vendor/prism.js', async: true }
-					// { src: 'https://platform.twitter.com/widgets.js', async: true }
-				]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
 			})
 		</script>
 	</body>

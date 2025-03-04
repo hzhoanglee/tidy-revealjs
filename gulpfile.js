@@ -1,8 +1,7 @@
 const { src, dest, parallel, series, watch } = require('gulp')
-const del = require('del')
+const del = require('del');
 const fs = require('fs')
-const sass = require('gulp-sass')
-const merge = require('merge-stream')
+const sass = require('gulp-sass')(require('sass'));
 const hb = require('gulp-hb')
 const rename = require('gulp-rename')
 const directoryTree = require('directory-tree')
@@ -96,21 +95,42 @@ function html () {
 // Reveal.js Library
 // -----------------
 
-function reveal () {
-	return merge(
-		src('./node_modules/reveal.js/css/**/*.css')
-			.pipe(dest('./assets/vendor/revealjs/css')),
-
-		src('./node_modules/reveal.js/js/reveal.js')
-			.pipe(dest('./assets/vendor/revealjs')),
-
-		src('./node_modules/reveal.js/lib/**')
-			.pipe(dest('./assets/vendor/revealjs/lib')),
-
-		src('./node_modules/reveal.js/plugin/**')
-			.pipe(dest('./assets/vendor/revealjs/plugin'))
-	)
+function reveal() {
+	return Promise.all([
+		new Promise((resolve, reject) => {
+			src('./node_modules/reveal.js/css/**/*.css')
+				.pipe(dest('./assets/vendor/revealjs/css'))
+				.on('end', resolve)
+				.on('error', reject);
+		}),
+		new Promise((resolve, reject) => {
+			src('./node_modules/reveal.js/dist/reveal.js')
+				.pipe(dest('./assets/vendor/revealjs'))
+				.on('end', resolve)
+				.on('error', reject);
+		}),
+		// new Promise((resolve, reject) => {
+		// 	src('./node_modules/reveal.js/lib/**')
+		// 		.pipe(dest('./assets/vendor/revealjs/lib'))
+		// 		.on('end', resolve)
+		// 		.on('error', reject);
+		// }),
+		new Promise((resolve, reject) => {
+			src('./node_modules/reveal.js/plugin/**')
+				.pipe(dest('./assets/vendor/revealjs/plugin'))
+				.on('end', resolve)
+				.on('error', reject);
+		}),
+		new Promise((resolve, reject) => {
+			src('./node_modules/reveal.js/dist/theme/**')
+				.pipe(dest('./assets/vendor/revealjs/css/theme'))
+				.on('end', resolve)
+				.on('error', reject);
+		})
+	]);
 }
+
+
 
 // function init () {
 // 	return src('./reveal.init.js')
@@ -122,35 +142,47 @@ function reveal () {
 // Helpers
 // -------
 
-function _findSlides (tree) {
-	let filtered = []
 
-	if (tree === undefined) {
-		tree = directoryTree('./slides').children
+function _findSlides(tree) {
+	let filtered = [];
+
+	// Ensure tree is properly initialized
+	if (!tree) {
+		const dirTree = directoryTree('./slides');
+		tree = dirTree ? dirTree.children : [];
 	}
 
-	tree.forEach(function (child, i) {
+	// If tree is still undefined or empty, return an empty array
+	if (!Array.isArray(tree)) return filtered;
+
+	tree.forEach(child => {
 		if (child.type === 'directory') {
 			filtered.push({
 				folder: child.path,
-				slides: _findSlides(child.children)
-			})
+				slides: _findSlides(child.children || []) // Ensure recursion doesn't break
+			});
+		} else if (child.extension) {
+			if (child.extension === '.html') {
+				filtered.push({
+					type: 'html',
+					content: child.path
+				});
+			} else if (child.extension === '.md') {
+				file_content = fs.readFileSync(child.path, 'utf8')
+				filtered.push({
+					type: 'markdown',
+					content: file_content
+				});
+			}
 		}
-		else if (child.extension === '.html') {
-			filtered.push({
-				type: 'html',
-				content: child.path
-			})
-		}
-		else if (child.extension === '.md') {
-			filtered.push({
-				type: 'markdown',
-				content: child.path
-			})
-		}
-	})
-	return filtered
+	});
+	// console.log('---- filtered ----')
+	// console.log(JSON.stringify(filtered, null, 4))
+	// console.log('----')
+
+	return filtered;
 }
+
 
 
 // Public Gulp Tasks
